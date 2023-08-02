@@ -1,0 +1,77 @@
+{
+	"info": {
+		"_postman_id": "28fb8d99-b2e9-4ede-9247-6d6579dcba68",
+		"name": "ACI Cognitive Services",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "First request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var oploc = pm.response.headers.get(\"Operation-Location\");\r",
+							"pm.environment.set(\"oploc\", oploc);\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"url\": \"https://cdn3.geckoandfly.com/wp-content/uploads/2015/09/demotivational-quotes-05.jpg\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{port}}/vision/v3.2/read/analyze?model-version=2022-04-30",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"vision",
+						"v3.2",
+						"read",
+						"analyze"
+					],
+					"query": [
+						{
+							"key": "model-version",
+							"value": "2022-04-30"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Second request",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{oploc}}",
+					"host": [
+						"{{oploc}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
