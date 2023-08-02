@@ -1,0 +1,1 @@
+Use this collection to query an ACI instance that is running an Azure AI container. Update the ACI environment values to match your ACI instance and run

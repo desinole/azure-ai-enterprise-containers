@@ -10,8 +10,6 @@ using Microsoft.Extensions.Configuration;
 // import namespaces
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
-using Azure.Identity;
-using Azure.Security.KeyVault.Secrets;
 
 namespace read_text
 {
@@ -28,16 +26,6 @@ namespace read_text
                 IConfigurationRoot configuration = builder.Build();
                 string cogSvcEndpoint = configuration["CognitiveServicesEndpoint"];
                 string cogSvcKey = configuration["CognitiveServiceKey"];
-                string keyVaultName = configuration["KeyVault"];
-                string appTenant = configuration["TenantId"];
-                string appId = configuration["AppId"];
-                string appPassword = configuration["AppPassword"];
-                // Get cognitive services key from keyvault using the service principal credentials
-                var keyVaultUri = new Uri($"https://{keyVaultName}.vault.azure.net/");
-                ClientSecretCredential credential = new ClientSecretCredential(appTenant, appId, appPassword);
-                var keyVaultClient = new SecretClient(keyVaultUri, credential);
-                KeyVaultSecret secretKey = keyVaultClient.GetSecret("Cognitive-Services-Key");
-                cogSvcKey = secretKey.Value;
 
                 // Authenticate Computer Vision client
                 ApiKeyServiceClientCredentials credentials = new ApiKeyServiceClientCredentials(cogSvcKey);
