@@ -1,0 +1,40 @@
+apiVersion: 2018-10-01
+location: eastus2
+name: #resource name here
+properties:
+  # imageRegistryCredentials: # This is only required if you are pulling a non-public image that requires authentication to access. For example Text Analytics for health.
+  # - server: mcr.microsoft.com/azure-cognitive-services/vision/read:3.2-model-2022-04-30
+  #   username: # < The username for the preview container registry >
+  #   password: # < The password for the preview container registry >
+  containers:
+  - name: vision
+    properties:
+      image: mcr.microsoft.com/azure-cognitive-services/vision/read:3.2-model-2022-04-30
+      environmentVariables: # These env vars are required
+        - name: eula
+          value: accept
+        - name: billing
+          value: #endpoint here
+        - name: apikey
+          value: #api key here
+      resources:
+        requests:
+          cpu: 4 # Always refer to recommended minimal resources
+          memoryInGb: 8 # Always refer to recommended minimal resources
+      ports:
+        - port: 5000
+  osType: Linux
+  # volumes: # This node, is only required for container instances that pull their model in at runtime, such as LUIS.
+  # - name: aci-file-share
+  #   azureFile:
+  #     shareName: # < File share name >
+  #     storageAccountName: # < Storage account name>
+  #     storageAccountKey: # < Storage account key >
+  restartPolicy: OnFailure
+  ipAddress:
+    type: Public
+    ports:
+    - protocol: tcp
+      port: 5000
+tags: null
+type: Microsoft.ContainerInstance/containerGroups
